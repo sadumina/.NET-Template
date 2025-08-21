@@ -80,11 +80,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\MyApp.Api.csproj",
+      "projectUniqueName": "C:\\Users\\hp\\Desktop\\net\\MyAPP.Api\\MyApp.Api.csproj",
       "projectName": "MyApp.Api",
-      "projectPath": "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\MyApp.Api.csproj",
+      "projectPath": "C:\\Users\\hp\\Desktop\\net\\MyAPP.Api\\MyApp.Api.csproj",
       "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\obj\\",
+      "outputPath": "C:\\Users\\hp\\Desktop\\net\\MyAPP.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config"
