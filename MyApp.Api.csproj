@@ -17,8 +17,6 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\myapp-client\myapp-client.csproj" />
-  </ItemGroup>
+  
 
 </Project>
