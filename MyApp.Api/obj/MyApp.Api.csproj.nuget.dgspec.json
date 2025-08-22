@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\MyApp.Api\\MyApp.Api.csproj": {}
+    "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\MYAPP.API\\MyApp.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\MyApp.Api\\MyApp.Api.csproj": {
+    "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\MYAPP.API\\MyApp.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\MyApp.Api\\MyApp.Api.csproj",
+        "projectUniqueName": "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\MYAPP.API\\MyApp.Api.csproj",
         "projectName": "MyApp.Api",
-        "projectPath": "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\MyApp.Api\\MyApp.Api.csproj",
+        "projectPath": "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\MYAPP.API\\MyApp.Api.csproj",
         "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\MyApp.Api\\obj\\",
+        "outputPath": "C:\\Users\\hp\\Desktop\\net\\MyApp.Api\\MYAPP.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -44,6 +44,12 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.8, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
