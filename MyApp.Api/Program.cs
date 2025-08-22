@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using MyApp.Api.Data; // ✅ Add this for AppDbContext
 
 namespace MyApp.Api
 {
@@ -14,6 +16,10 @@ namespace MyApp.Api
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // ✅ Register DbContext with SQLite
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite("Data Source=app.db"));
 
             // ✅ Enable CORS for React (http://localhost:3000)
             builder.Services.AddCors(options =>
@@ -46,6 +52,3 @@ namespace MyApp.Api
         }
     }
 }
-
-// This is the code that makes the GET request to the API
-
