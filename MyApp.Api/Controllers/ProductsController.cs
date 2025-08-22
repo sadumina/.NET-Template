@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyApp.Api.Data;
-using MyApp.Api.Models;
+using MyApp.Api.models;
 
 namespace MyApp.Api.Controllers
 {
@@ -17,13 +17,13 @@ namespace MyApp.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
         {
             return await _context.Products.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<Products>> GetProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null) return NotFound();
@@ -31,7 +31,7 @@ namespace MyApp.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct(Product product)
+        public async Task<ActionResult<Products>> CreateProduct(Products product)
         {
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
@@ -39,7 +39,7 @@ namespace MyApp.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, Product product)
+        public async Task<IActionResult> UpdateProduct(int id, Products product)
         {
             if (id != product.Id) return BadRequest();
 
