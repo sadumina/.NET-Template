@@ -1,332 +1,588 @@
-# 🚀 Full Stack .NET + React Application
+# 🏗️ Complete .NET + React + Docker Setup Guide
 
-[![.NET](https://img.shields.io/badge/.NET-6.0+-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
-[![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
-[![Docker](https://img.shields.io/badge/Docker-20+-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+## 📋 Prerequisites
 
-> 🎯 A modern full-stack application built with .NET Web API backend, React frontend, and containerized with Docker for seamless deployment.
+Before starting, make sure you have these installed:
 
-## 📋 Table of Contents
-
-- [✨ Features](#-features)
-- [🏗️ Architecture](#️-architecture)
-- [🛠️ Prerequisites](#️-prerequisites)
-- [⚡ Quick Start](#-quick-start)
-- [🐳 Docker Setup](#-docker-setup)
-- [📁 Project Structure](#-project-structure)
-- [🔧 Development](#-development)
-- [🚢 Deployment](#-deployment)
-- [📊 API Documentation](#-api-documentation)
-- [🤝 Contributing](#-contributing)
-
-## ✨ Features
-
-- 🎨 **Modern React Frontend** - Built with latest React 18+ and functional components
-- 🔥 **Robust .NET Backend** - ASP.NET Core Web API with Entity Framework
-- 🐳 **Containerized** - Full Docker support with multi-stage builds
-- 🔒 **Authentication** - JWT-based authentication and authorization
-- 📱 **Responsive Design** - Mobile-first responsive UI
-- ⚡ **Real-time Updates** - SignalR integration for live data
-- 🗄️ **Database Support** - SQL Server with Entity Framework Core
-- 🧪 **Testing Ready** - Unit and integration test setup
-- 📈 **Monitoring** - Built-in logging and health checks
-
-## 🏗️ Architecture
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   React Client  │───▶│  .NET Web API   │───▶│   SQL Server    │
-│   (Frontend)    │    │   (Backend)     │    │   (Database)    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-        │                        │                        │
-        └────────────────────────┼────────────────────────┘
-                                 │
-                    ┌─────────────────┐
-                    │     Docker      │
-                    │  (Containerized)│
-                    └─────────────────┘
-```
-
-## 🛠️ Prerequisites
-
-Before you begin, ensure you have the following installed:
-
-| Tool | Version | Download |
-|------|---------|----------|
-| 🔷 .NET SDK | 6.0+ | [Download](https://dotnet.microsoft.com/download) |
-| 📦 Node.js | 16+ | [Download](https://nodejs.org/) |
-| 🐳 Docker | 20+ | [Download](https://www.docker.com/get-started) |
-| 🐙 Git | Latest | [Download](https://git-scm.com/) |
-
-## ⚡ Quick Start
-
-### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/yourusername/your-repo-name.git
-cd your-repo-name
+# Check if you have these tools installed
+dotnet --version    # Should be 6.0 or higher
+node --version      # Should be 16.0 or higher  
+npm --version       # Should be 8.0 or higher
+docker --version    # Should be 20.0 or higher
 ```
 
-### 2️⃣ Environment Setup
-```bash
-# Copy environment variables
-cp .env.example .env
+If you don't have them, download from:
+- 🔷 [.NET SDK](https://dotnet.microsoft.com/download)
+- 📦 [Node.js](https://nodejs.org/)
+- 🐳 [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
-# Update connection strings and API keys in .env file
+## 🚀 Step 1: Create Project Structure
+
+### 1️⃣ Create Root Directory and Navigate
+
+```bash
+# Create main project folder
+mkdir MyFullStackApp
+cd MyFullStackApp
+
+# Initialize git repository (optional)
+git init
 ```
 
-### 3️⃣ Run with Docker (Recommended)
+### 2️⃣ Create Backend (.NET Web API)
+
 ```bash
+# Create backend folder and navigate
+mkdir Backend
+cd Backend
+
+# Create .NET Web API project
+dotnet new webapi -n MyApp.API
+cd MyApp.API
+
+# Add necessary packages
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+dotnet add package Microsoft.AspNetCore.Cors
+dotnet add package Swashbuckle.AspNetCore
+
+# Build to verify everything is working
+dotnet build
+```
+
+### 3️⃣ Create Frontend (React)
+
+```bash
+# Go back to root directory
+cd ../../
+
+# Create React app
+npx create-react-app Frontend --template typescript
+cd Frontend
+
+# Add additional packages for API communication
+npm install axios react-router-dom @types/node
+npm install -D @types/react-router-dom
+
+# Verify React app works
+npm start
+```
+
+## 📁 Step 2: Final Project Structure
+
+After completing Step 1, your folder structure should look like this:
+
+```
+📦 MyFullStackApp/
+├── 📁 Backend/
+│   └── 📁 MyApp.API/
+│       ├── 📁 Controllers/
+│       │   └── 📄 WeatherForecastController.cs
+│       ├── 📁 Models/
+│       │   └── 📄 WeatherForecast.cs
+│       ├── 📁 Properties/
+│       │   └── 📄 launchSettings.json
+│       ├── 📄 Program.cs
+│       ├── 📄 MyApp.API.csproj
+│       └── 📄 appsettings.json
+├── 📁 Frontend/
+│   ├── 📁 public/
+│   │   ├── 📄 index.html
+│   │   └── 📄 favicon.ico
+│   ├── 📁 src/
+│   │   ├── 📁 components/
+│   │   ├── 📁 pages/
+│   │   ├── 📁 services/
+│   │   ├── 📄 App.tsx
+│   │   ├── 📄 App.css
+│   │   └── 📄 index.tsx
+│   ├── 📄 package.json
+│   └── 📄 tsconfig.json
+├── 📄 docker-compose.yml
+├── 📄 .gitignore
+└── 📄 README.md
+```
+
+## ⚙️ Step 3: Configure Backend (.NET API)
+
+### 1️⃣ Update Program.cs
+
+Navigate to `Backend/MyApp.API/Program.cs` and replace with:
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+app.UseCors("AllowReactApp");
+app.UseAuthorization();
+app.MapControllers();
+
+app.Run();
+```
+
+### 2️⃣ Create a Simple API Controller
+
+Create `Backend/MyApp.API/Controllers/UsersController.cs`:
+
+```csharp
+using Microsoft.AspNetCore.Mvc;
+
+namespace MyApp.API.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class UsersController : ControllerBase
+{
+    [HttpGet]
+    public ActionResult<IEnumerable<object>> GetUsers()
+    {
+        var users = new[]
+        {
+            new { Id = 1, Name = "John Doe", Email = "john@example.com" },
+            new { Id = 2, Name = "Jane Smith", Email = "jane@example.com" },
+            new { Id = 3, Name = "Bob Johnson", Email = "bob@example.com" }
+        };
+        
+        return Ok(users);
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult<object> GetUser(int id)
+    {
+        var user = new { Id = id, Name = $"User {id}", Email = $"user{id}@example.com" };
+        return Ok(user);
+    }
+}
+```
+
+### 3️⃣ Update appsettings.json
+
+Update `Backend/MyApp.API/appsettings.json`:
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=MyAppDb;Trusted_Connection=true;MultipleActiveResultSets=true"
+  }
+}
+```
+
+## 🎨 Step 4: Configure Frontend (React)
+
+### 1️⃣ Create API Service
+
+Create `Frontend/src/services/apiService.ts`:
+
+```typescript
+import axios from 'axios';
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://localhost:7076/api';
+
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+export const userService = {
+  getUsers: async (): Promise<User[]> => {
+    const response = await apiClient.get<User[]>('/users');
+    return response.data;
+  },
+
+  getUser: async (id: number): Promise<User> => {
+    const response = await apiClient.get<User>(`/users/${id}`);
+    return response.data;
+  },
+};
+```
+
+### 2️⃣ Create Components
+
+Create `Frontend/src/components/UserList.tsx`:
+
+```typescript
+import React, { useEffect, useState } from 'react';
+import { userService, User } from '../services/apiService';
+
+const UserList: React.FC = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const userData = await userService.getUsers();
+        setUsers(userData);
+      } catch (err) {
+        setError('Failed to fetch users');
+        console.error('Error fetching users:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  if (loading) return <div>Loading users...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  return (
+    <div>
+      <h2>Users</h2>
+      <div style={{ display: 'grid', gap: '10px' }}>
+        {users.map((user) => (
+          <div key={user.id} style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '5px' }}>
+            <h3>{user.name}</h3>
+            <p>Email: {user.email}</p>
+            <p>ID: {user.id}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default UserList;
+```
+
+### 3️⃣ Update App.tsx
+
+Replace `Frontend/src/App.tsx` with:
+
+```typescript
+import React from 'react';
+import './App.css';
+import UserList from './components/UserList';
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1>🚀 My Full Stack App</h1>
+        <p>React Frontend + .NET Backend</p>
+        <UserList />
+      </header>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### 4️⃣ Add Environment Variable
+
+Create `Frontend/.env`:
+
+```env
+REACT_APP_API_URL=http://localhost:5076/api
+```
+
+## 🐳 Step 5: Docker Configuration
+
+### 1️⃣ Create Backend Dockerfile
+
+Create `Backend/MyApp.API/Dockerfile`:
+
+```dockerfile
+# Use the official .NET SDK image for building
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /app
+
+# Copy project file and restore dependencies
+COPY *.csproj .
+RUN dotnet restore
+
+# Copy source code and build
+COPY . .
+RUN dotnet publish -c Release -o out
+
+# Use the ASP.NET runtime image for running
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/out .
+
+# Expose port
+EXPOSE 80
+EXPOSE 443
+
+ENTRYPOINT ["dotnet", "MyApp.API.dll"]
+```
+
+### 2️⃣ Create Frontend Dockerfile
+
+Create `Frontend/Dockerfile`:
+
+```dockerfile
+# Build stage
+FROM node:18-alpine AS build
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+RUN npm ci --only=production
+
+# Copy source code and build
+COPY . .
+RUN npm run build
+
+# Production stage
+FROM nginx:alpine AS production
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+### 3️⃣ Create Nginx Configuration
+
+Create `Frontend/nginx.conf`:
+
+```nginx
+server {
+    listen 80;
+    server_name localhost;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api/ {
+        proxy_pass http://backend:80/api/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+### 4️⃣ Create Docker Compose
+
+Create `docker-compose.yml` in the root directory:
+
+```yaml
+version: '3.8'
+
+services:
+  # SQL Server Database
+  database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: myapp-database
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_server_data:/var/opt/mssql
+    networks:
+      - myapp-network
+
+  # .NET Backend API
+  backend:
+    build:
+      context: ./Backend/MyApp.API
+      dockerfile: Dockerfile
+    container_name: myapp-backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=database,1433;Database=MyAppDb;User=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=true
+    ports:
+      - "5076:80"
+    depends_on:
+      - database
+    networks:
+      - myapp-network
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    container_name: myapp-frontend
+    environment:
+      - REACT_APP_API_URL=http://localhost:5076/api
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - myapp-network
+
+networks:
+  myapp-network:
+    driver: bridge
+
+volumes:
+  sql_server_data:
+```
+
+### 5️⃣ Create .gitignore
+
+Create `.gitignore` in root directory:
+
+```gitignore
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.dll
+*.pdb
+*.exe
+
+# React
+node_modules/
+build/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker
+.dockerignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+```
+
+## 🚀 Step 6: Run Your Application
+
+### 🏃‍♂️ Method 1: Run with Docker (Recommended)
+
+```bash
+# From the root directory (MyFullStackApp)
 # Build and start all services
 docker-compose up --build
 
-# Access the application
-# Frontend: http://localhost:3000
-# Backend API: http://localhost:5000
-# API Docs: http://localhost:5000/swagger
-```
-
-## 🐳 Docker Setup
-
-### 📦 Using Docker Compose (Easiest)
-
-```yaml
-# docker-compose.yml structure
-services:
-  - 🌐 Frontend (React)
-  - 🔧 Backend (.NET API)
-  - 🗄️ Database (SQL Server)
-  - 🔄 Reverse Proxy (Nginx)
-```
-
-```bash
-# Start all services
-docker-compose up -d
+# Or run in detached mode
+docker-compose up --build -d
 
 # View logs
 docker-compose logs -f
 
-# Stop services
+# Stop all services
 docker-compose down
 ```
 
-### 🏗️ Manual Docker Build
+### 🏃‍♂️ Method 2: Run Manually (Development)
 
+**Terminal 1 - Backend:**
 ```bash
-# Build backend
-docker build -t myapp-backend ./Backend
-
-# Build frontend
-docker build -t myapp-frontend ./Frontend
-
-# Run with custom network
-docker network create myapp-network
-docker run -d --network myapp-network --name backend myapp-backend
-docker run -d --network myapp-network --name frontend -p 3000:80 myapp-frontend
+cd Backend/MyApp.API
+dotnet run
+# Backend will run on https://localhost:7076
 ```
 
-## 📁 Project Structure
-
-```
-📦 Project Root
-├── 🗂️ Backend/                 # .NET Web API
-│   ├── 📄 Controllers/         # API Controllers
-│   ├── 📊 Models/              # Data Models
-│   ├── 🔧 Services/            # Business Logic
-│   ├── 🗄️ Data/               # Entity Framework Context
-│   ├── 🧪 Tests/               # Unit Tests
-│   └── 🐳 Dockerfile
-├── 🗂️ Frontend/                # React Application
-│   ├── 📱 src/
-│   │   ├── 🧩 components/      # React Components
-│   │   ├── 📄 pages/           # Page Components
-│   │   ├── 🔧 services/        # API Services
-│   │   ├── 🎨 styles/          # CSS/SCSS Files
-│   │   └── 🛠️ utils/          # Utility Functions
-│   ├── 📦 public/              # Static Assets
-│   ├── 🧪 tests/               # Jest Tests
-│   └── 🐳 Dockerfile
-├── 🐳 docker-compose.yml       # Docker Compose Configuration
-├── 🌍 .env.example             # Environment Variables Template
-└── 📖 README.md               # This File
-```
-
-## 🔧 Development
-
-### 🖥️ Backend Development (.NET)
-
-```bash
-cd Backend
-
-# Restore packages
-dotnet restore
-
-# Update database
-dotnet ef database update
-
-# Run in development mode
-dotnet run --environment Development
-
-# Run tests
-dotnet test
-```
-
-### 🎨 Frontend Development (React)
-
+**Terminal 2 - Frontend:**
 ```bash
 cd Frontend
-
-# Install dependencies
-npm install
-
-# Start development server
 npm start
-
-# Run tests
-npm test
-
-# Build for production
-npm run build
+# Frontend will run on http://localhost:3000
 ```
 
-### 🗄️ Database Management
+## 🌐 Access Your Application
 
-```bash
-# Create new migration
-dotnet ef migrations add MigrationName
+After running with Docker:
+- 🎨 **Frontend**: http://localhost:3000
+- 🔧 **Backend API**: http://localhost:5076
+- 📊 **Swagger UI**: http://localhost:5076/swagger
+- 🗄️ **Database**: localhost:1433 (user: sa, password: YourStrong@Passw0rd)
 
-# Update database
-dotnet ef database update
+## ✅ Verify Everything Works
 
-# Drop database (⚠️ Caution)
-dotnet ef database drop
-```
+1. **Backend Test**: Visit http://localhost:5076/swagger
+2. **API Test**: Visit http://localhost:5076/api/users
+3. **Frontend Test**: Visit http://localhost:3000 - you should see the user list
+4. **Full Integration**: The React app should display users fetched from the .NET API
 
-## 🚢 Deployment
+## 🎉 You're Done!
 
-### 🌟 Production Deployment
+You now have:
+- ✅ A .NET Web API backend with Swagger documentation
+- ✅ A React TypeScript frontend
+- ✅ SQL Server database
+- ✅ Complete Docker containerization
+- ✅ CORS configured for communication between frontend and backend
+- ✅ A working full-stack application!
 
-1. **📦 Build Production Images**
-   ```bash
-   docker-compose -f docker-compose.prod.yml build
-   ```
+## 🔧 Next Steps
 
-2. **🚀 Deploy to Cloud**
-   ```bash
-   # Azure Container Instances
-   docker-compose -f docker-compose.prod.yml up -d
-   
-   # AWS ECS
-   # Configure AWS CLI and deploy using ECS CLI
-   
-   # Google Cloud Run
-   # Use Cloud Build for automated deployment
-   ```
+1. **Add Authentication**: Implement JWT authentication
+2. **Add Entity Framework**: Create proper models and database context
+3. **Add Validation**: Input validation and error handling
+4. **Add Testing**: Unit tests for both frontend and backend
+5. **Add CI/CD**: GitHub Actions for automated deployment
 
-3. **⚙️ Environment Variables**
-   ```bash
-   # Set production environment variables
-   DATABASE_URL=your_production_db_url
-   JWT_SECRET=your_jwt_secret
-   API_URL=your_production_api_url
-   ```
+## 🚨 Common Issues & Solutions
 
-### 🔄 CI/CD Pipeline
-
-```yaml
-# .github/workflows/deploy.yml
-name: 🚀 Deploy to Production
-on:
-  push:
-    branches: [main]
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    # Add your CI/CD steps here
-```
-
-## 📊 API Documentation
-
-### 🔗 Endpoints Overview
-
-| Method | Endpoint | Description | 🔐 Auth |
-|--------|----------|-------------|---------|
-| GET | `/api/health` | Health check | ❌ |
-| POST | `/api/auth/login` | User login | ❌ |
-| GET | `/api/users` | Get users | ✅ |
-| POST | `/api/users` | Create user | ✅ |
-
-### 📋 Swagger Documentation
-
-Once the application is running, visit:
-- 🌐 **Local**: http://localhost:5000/swagger
-- 🚀 **Production**: https://your-domain.com/swagger
-
-## 🧪 Testing
-
-### 🔬 Backend Tests
-```bash
-cd Backend
-dotnet test --verbosity normal
-```
-
-### 🧪 Frontend Tests
-```bash
-cd Frontend
-npm test -- --coverage --watchAll=false
-```
-
-### 🐳 Integration Tests
-```bash
-# Run full integration test suite
-docker-compose -f docker-compose.test.yml up --abort-on-container-exit
-```
-
-## 📈 Monitoring & Logging
-
-- 📊 **Application Insights** - Performance monitoring
-- 📝 **Serilog** - Structured logging
-- 🏥 **Health Checks** - Service health monitoring
-- 📉 **Metrics** - Custom application metrics
-
-## 🤝 Contributing
-
-We love contributions! 🎉
-
-### 📋 How to Contribute
-
-1. 🍴 **Fork** the repository
-2. 🌿 **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
-3. 💾 **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
-4. 📤 **Push** to the branch (`git push origin feature/AmazingFeature`)
-5. 🔄 **Open** a Pull Request
-
-### 📏 Coding Standards
-
-- ✅ Follow .NET and React best practices
-- 📝 Write meaningful commit messages
-- 🧪 Include tests for new features
-- 📖 Update documentation as needed
-
-## 📞 Support & Contact
-
-- 🐛 **Issues**: [GitHub Issues](https://github.com/yourusername/your-repo/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/yourusername/your-repo/discussions)
-- 📧 **Email**: your-email@domain.com
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-<div align="center">
-
-### 🌟 Don't forget to star this repository if it helped you! 🌟
-
-**Made with ❤️ by [Your Name](https://github.com/yourusername)**
-
-[![⭐ Star on GitHub](https://img.shields.io/github/stars/yourusername/your-repo?style=social)](https://github.com/yourusername/your-repo/stargazers)
-[![🍴 Fork on GitHub](https://img.shields.io/github/forks/yourusername/your-repo?style=social)](https://github.com/yourusername/your-repo/network)
-
-</div>
+**Port Conflicts**: If ports are already in use, change them in docker-compose.yml
+**CORS Issues**: Make sure the frontend URL is added to CORS policy in Program.cs
+**Database Connection**: Wait for SQL Server to fully start before the backend connects
+**Docker Build Fails**: Make sure Docker Desktop is running and you have enough disk space
